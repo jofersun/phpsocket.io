@@ -256,4 +256,4 @@ server {
 <script>
 var socket = io('https://yoursite.com');
 //.....
-</scrip
+</script>
