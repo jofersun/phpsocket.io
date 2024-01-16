@@ -10,11 +10,13 @@ WORKDIR /usr/phpsocket
 
 COPY    ./examples ./examples
 COPY    ./src ./src
-COPY    ./vendor ./vendor
+# COPY    ./vendor ./vendor
 COPY    composer* .
 
 RUN     apt update
 RUN     apt-get install wget
+RUN     apt-get install -y \zlib1g-dev \libzip-dev \unzip
+
 COPY    php-8.1.26.tar.gz .
 # RUN     wget https://www.php.net/distributions/php-8.1.26.tar.gz
 RUN     tar xfz php-8.1.26.tar.gz && rm -rf php-8.1.26.tar.gz
@@ -27,6 +29,7 @@ RUN     mkdir /usr/local/etc/php/mods-available
 RUN     sh -c "echo 'extension=pcntl.so' > /usr/local/etc/php/mods-available/pcntl.ini"
 RUN     echo 'extension=pcntl' >> /usr/local/etc/php/conf.d/docker-fpm.ini
 WORKDIR /usr/phpsocket
+RUN     php composer.phar install
 # RUN     php ./examples/chat/start.php start
 
 EXPOSE ${PORT}
